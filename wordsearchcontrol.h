@@ -32,7 +32,7 @@
 #include <QSpinBox>
 #include <QLineEdit>
 #include <QtXml>
-#include <QHttp>
+#include <QNetworkAccessManager>
 #include <QDialog>
 #include "ui_wordsearchcontrol.h"
 
@@ -46,7 +46,7 @@ class WordSearchControl : public QWidget , private Ui::WordSearchControl
 		QTextEdit *wlb;
                 WordSearchDoc *wsd;
 		QBuffer *webbuffer;
-		QHttp *http;
+		QNetworkAccessManager *http;
                 int httpPostId;
 	private slots:
                 void createclicked();

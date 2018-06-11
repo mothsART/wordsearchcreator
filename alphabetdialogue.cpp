@@ -17,6 +17,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QInputDialog>
+#include <QMessageBox>
 #include "alphabetdialogue.h"
 #include "wordsearchdoc.h"
 
@@ -27,7 +29,7 @@ AlphabetDialog::AlphabetDialog(QWidget *parent)
 {
     setupUi(this);
     this->setWindowModality(Qt::WindowModal);
-    http= new QHttp(this);
+    http= new QNetworkAccessManager(this);
     Alphabetcbox->addItem("Custom");
     Alphabetcbox->addItem("English - \"abcdefghijklmnopqrstuvwxyz\"","abcdefghijklmnopqrstuvwxyz");
     Alphabetcbox->addItem("Numbers - \"1234567890\"","1234567890");
@@ -167,9 +169,11 @@ void AlphabetDialog::getfromweb()
                                   QMessageBox::Yes | QMessageBox::No);
     if (reply != QMessageBox::Yes)
         return;
+    /*
     http->setHost("wordsearchcreator.org");
     buffer = new QBuffer;
     httpGetId = http->post("/alphabets.xml","1.1", buffer);
+    */
 }
 
 void AlphabetDialog::httpRequestFinished(int requestId, bool error)
@@ -178,6 +182,7 @@ void AlphabetDialog::httpRequestFinished(int requestId, bool error)
     if (requestId != httpGetId)
         return;
 
+    /*
     if (http->lastResponse().statusCode() != 200) {
         
         QMessageBox::information(this, tr("HTTP"),
@@ -191,6 +196,8 @@ void AlphabetDialog::httpRequestFinished(int requestId, bool error)
                                  .arg(http->errorString()));
 
     } else {
+    */
+    if (!error) {
 
         buffer->open(QBuffer::ReadWrite);
 

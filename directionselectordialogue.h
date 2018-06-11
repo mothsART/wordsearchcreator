@@ -20,6 +20,7 @@
 #ifndef DIRECTIONSELECTORDIALOGUE_H
 #define DIRECTIONSELECTORDIALOGUE_H
 #include <QtGui>
+#include <QDialog>
 
 class DirectionSelector;
 class wordsearch;

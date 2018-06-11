@@ -29,6 +29,7 @@ UpdateChecker::UpdateChecker(QObject *parent) :
 
 void UpdateChecker::checkForUpdate(bool manual = false)
 {
+    /*
     QUrl url("http://www.wordsearchcreator.org/update/1.1/check.php");
     if (manual)
         url.addQueryItem("type", "manual");
@@ -49,10 +50,12 @@ void UpdateChecker::checkForUpdate(bool manual = false)
     url.addQueryItem("OS", "Unknown");
 #endif
     manager->get(QNetworkRequest(url));
+    */
 }
 
 void UpdateChecker::updateReplyFinished(QNetworkReply* reply)
 {
+    /*
     bool manualRequest = reply->request().url().queryItemValue("type")=="manual";
     //Check that there was no error.
     if (reply->error()!=QNetworkReply::NoError)
@@ -102,4 +105,5 @@ void UpdateChecker::updateReplyFinished(QNetworkReply* reply)
     layout.addWidget(&buttonBox);
     layout.setSizeConstraint(QLayout::SetFixedSize);
     msgBox.exec();
+    */
 }

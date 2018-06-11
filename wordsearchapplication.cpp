@@ -21,6 +21,7 @@
 #include "wordsearchdoc.h"
 #include "mainwindow.h"
 #include "updatechecker.h"
+#include <QMessageBox>
 
 WordSearchApplication::WordSearchApplication( int & argc, char **argv ) :
     QApplication(argc,argv)

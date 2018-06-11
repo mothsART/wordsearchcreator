@@ -20,6 +20,9 @@
 #ifndef MASKDIALOGUE_H
 #define MASKDIALOGUE_H
 #include <QtGui>
+#include <QDialog>
+#include <QLabel>
+#include <QCheckBox>
 
 class WordSearchDoc;
 class MaskDrawer;

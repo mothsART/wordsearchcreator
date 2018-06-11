@@ -23,6 +23,7 @@
 #include <QtCore>
 #include <QtXml>
 #include <QtGui>
+#include <QPrinter>
 #include "wordsearch.h"
 
 class WordSearchDoc : public QObject

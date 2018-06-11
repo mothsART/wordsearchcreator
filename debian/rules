@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/qmake.mk
+
+QMAKE=qmake
+QTDIR=/usr
+CFLAGS=-O3
+CXXFLAGS=-O3
+EXECNAME=wordsearchcreator
+DEST=/usr/share/$(EXECNAME)
+EXECDEST=/usr/lib/$(EXECNAME)
+BUILDTEMP=$(CURDIR)/debian/$(EXECNAME)
+
+install/$(EXECNAME)::
+	install -d -m 755 $(BUILDTEMP)/usr/bin/
+	install -d -m 755 $(BUILDTEMP)/$(EXECDEST)
+	install -d -m 755 $(BUILDTEMP)/$(DEST)/data/icones
+	install -d -m 755 $(BUILDTEMP)/$(DEST)/conf
+	install -d -m 755 $(BUILDTEMP)/$(DEST)/lang
+	install -d -m 755  $(BUILDTEMP)/usr/share/applications

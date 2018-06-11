@@ -1,0 +1,29 @@
+Source: wordsearchcreator
+Section: education
+Version: 1.1
+Priority: extra
+Maintainer: Ferry Jeremie <jerem.ferry@gmail.com>
+
+Package: wordsearchcreator
+Version: 1.1
+Architecture: armhf
+Maintainer: Matt <info@openforeveryone.co.uk>
+Installed-Size: 468
+Depends: libc6 (>= 2.14), libgcc1 (>= 1:4.1.1), libqt4-network (>= 4:4.5.3), libqt4-svg (>= 4:4.5.3), libqt4-xml (>= 4:4.5.3), libqtcore4 (>= 4:4.7.0~beta1), libqtgui4 (>= 4:4.5.3), libstdc++6 (>= 4.1.1)
+Section: education
+Priority: extra
+Homepage: http://www.wordsearchcreator.org
+Description: Word Search Creator is an open-source word search worksheet creator.
+ Word Search Creator an open-source wysiwyg word search worksheet creator avalible for Linux, Mac and Windows.
+ - Play on screen.
+ - One click shuffle words.
+ - Choose the directions of the words.
+ - Set the size and shape of your word search.
+ - Use Auto-enlarge to guarantee all words will fit.
+ - Use the word list creator to take words from text.
+ - Export to .pdf
+ - SVG export.
+ - Copy as image (paste into word processor etc...)
+ - Unicode (multi-language) support
+ - Custom fill alphabet.
+ - Set word list order.

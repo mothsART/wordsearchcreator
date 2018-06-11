@@ -17,6 +17,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QPrinter>
+#include <QPrintDialog>
 #include "pagelayoutdialogue.h"
 
 PageLayoutDialog::PageLayoutDialog(QWidget *parent)
@@ -69,7 +71,26 @@ void PageLayoutDialog::PageSizeChanged()
     int index = pagesizecombo->findData(QPrinter::Custom);
     for (int a = 0; a < QPrinter::NPageSize; a++)
     {
-        if(((qRound(PageLayoutDialog::paperSize(static_cast<QPrinter::PageSize>(a)).width)==qRound(widthSpinBox->value()*72.0))&&(qRound(PageLayoutDialog::paperSize(static_cast<QPrinter::PageSize>(a)).height)==qRound(heightSpinBox->value()*72.0)))||((qRound(PageLayoutDialog::paperSize(static_cast<QPrinter::PageSize>(a)).width)==qRound(heightSpinBox->value()*72.0))&&(qRound(PageLayoutDialog::paperSize(static_cast<QPrinter::PageSize>(a)).height)==qRound(widthSpinBox->value()*72.0))))
+        if(((
+	    qRound(float(
+		PageLayoutDialog::paperSize(static_cast<QPrinter::PageSize>(a)).width)
+            ))==qRound(float(
+                widthSpinBox->value()*72.0)
+            ))
+            &&(
+                qRound(float(
+                    PageLayoutDialog::paperSize(static_cast<QPrinter::PageSize>(a)).height
+                ))==qRound(float(
+                    heightSpinBox->value()*72.0
+                ))
+                || qRound(float(
+                    PageLayoutDialog::paperSize(static_cast<QPrinter::PageSize>(a)).width
+                ))==qRound(float(heightSpinBox->value()*72.0))
+            )
+            &&(qRound(float(
+                PageLayoutDialog::paperSize(static_cast<QPrinter::PageSize>(a)).height
+            ))==qRound(float(widthSpinBox->value()*72.0)
+        )))
         {
             index=(pagesizecombo->findData(static_cast<QPrinter::PageSize>(a)));
         }

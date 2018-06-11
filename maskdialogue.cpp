@@ -16,7 +16,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
+#include <QDialog>
+#include <QLabel>
+#include <QCheckBox>
+#include <QBoxLayout>
+#include <QPushButton>
+#include <QMessageBox>
 #include "maskdialogue.h"
 #include "wordsearchdoc.h"
 #include "maskdrawer.h"

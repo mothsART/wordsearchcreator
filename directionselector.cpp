@@ -19,6 +19,8 @@
 
 #include "directionselector.h"
 #include <wordsearch.h>
+#include <QWidget>
+#include <QDialog>
 
 DirectionSelector::DirectionSelector(QWidget *parent)
 	: QWidget(parent)

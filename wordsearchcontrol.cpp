@@ -28,12 +28,15 @@
 #include "pagelayoutdialogue.h"
 #include "alphabetdialogue.h"
 #include "mainwindow.h"
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QInputDialog>
 
 WordSearchControl::WordSearchControl(QWidget *)
 {
     setupUi(this);
     usewordsSpinBox->setVisible(false);
-    http= new QHttp(this);
+    http= new QNetworkAccessManager(this);
     connect(titlebox, SIGNAL(textChanged(QString)), this, SIGNAL(titleChanged(QString)));
     connect(arscheckbox, SIGNAL(stateChanged(int)), this, SIGNAL(arsstateChanged(int)));
     connect(sacheckbox, SIGNAL(stateChanged(int)), this, SIGNAL(sastateChanged(int)));
@@ -159,14 +162,17 @@ void WordSearchControl::upload()
         QBuffer wsdatabuffer;
         wsdatabuffer.open(QIODevice::WriteOnly);
         wsd->saveToIO(wsdatabuffer);
-        http->setHost("wordsearchcreator.org");
+        http->get(QNetworkRequest(QUrl("wordsearchcreator.org")));
         webbuffer = new QBuffer;
-        httpPostId = http->post("/uploadws_1.0.php", wsdatabuffer.buffer(), webbuffer);
+        
+        //httpPostId = http->post(QNetworkRequest(QUrl("/uploadws_1.0.php")));
+
     }
 }
 
 void WordSearchControl::httpRequestFinished(int requestId, bool error)
 {
+    /*
     if (requestId != httpPostId) return;
 
     if (http->lastResponse().statusCode() != 200) {
@@ -180,10 +186,11 @@ void WordSearchControl::httpRequestFinished(int requestId, bool error)
 
     } else {
         QUrl url("http://wordsearchcreator.org/uploadws_1.0_step2.php");
-        url.addQueryItem("id",webbuffer->buffer());
+        url.setQuery(QUrlQuery().addQueryItem("id",webbuffer->buffer()));
         QDesktopServices::openUrl(url);
         delete webbuffer;
     }
+    */
 }
 
 void WordSearchControl::SetupTemplate()

@@ -21,7 +21,8 @@
 #define APHABETDIALOGUE_H
 #include <QtGui>
 #include <iostream>
-#include <QHttp>
+#include <QNetworkAccessManager>
+#include <QProgressDialog>
 #include <QtXml>
 #include <wordsearch.h>
 #include "ui_alphabet.h"
@@ -38,7 +39,7 @@ public:
 protected:
 private:
     WordSearchDoc *wsd;
-    QHttp *http;
+    QNetworkAccessManager *http;
     QProgressDialog *progressDialog;
     int httpGetId;
     QBuffer *buffer;
