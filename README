@@ -1,0 +1,44 @@
+Word Search Creator 1.1
+
+Notes:
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+This is version 1.1 of Word Search Creator and we hope we have resolved the major bugs, However if you do find a bug or want to request a new feature then please either submit them on http://sf.net/projects/wsc or email info@openforeveryone.co.uk.
+
+Requirements:
+Qt4 => 4.5.0
+
+Installation:
+Please refer to INSTALL file
+
+Changes:
+Fix initial zoom bug.
+Setting for word space behaviour.
+Setting for background colour.
+Much improved MacOS support.
+Added launcher icon for GNU/Linux.
+Added file association & file icon for GNU/Linux.
+Add auto update checker.
+Several minor changes and bug fixes.
+
+Old Changes (1.0):
+Play on screen.
+Multi window GUI.
+Upload to web.
+SVG export.
+Set word list order.
+Several minor changes and bug fixes.
+
+Old Changes (0.9):
+New XML file format.
+Format page dialogue.
+Unicode support.
+Custom fill alphabet.
+
+
+To-do:
+Below is a list of things that are currently lined up to be done:
+Improve file format (fonts).
+Improve shape mask designer.
+Allow word list to spread over multiple pages.
+Allow words to be placed in predefined places.
