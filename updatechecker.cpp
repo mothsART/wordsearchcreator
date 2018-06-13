@@ -29,28 +29,51 @@ UpdateChecker::UpdateChecker(QObject *parent) :
 
 void UpdateChecker::checkForUpdate(bool manual = false)
 {
-    /*
-    QUrl url("http://www.wordsearchcreator.org/update/1.1/check.php");
-    if (manual)
-        url.addQueryItem("type", "manual");
-    else
-    {
-        QSettings settings;
-        bool autoCheckEnabled = settings.value("updateChecker/autoUpdateCheckEnabled", true).toBool();
-        if (!autoCheckEnabled)
-            return;
-    }
-#ifdef Q_OS_LINUX
-    url.addQueryItem("OS", "Linux");
-#elif defined Q_OS_MAC
-    url.addQueryItem("OS", "Mac");
-#elif defined Q_OS_WIN32
-    url.addQueryItem("OS", "Windows");
-#else
-    url.addQueryItem("OS", "Unknown");
-#endif
-    manager->get(QNetworkRequest(url));
-    */
+    #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+	    QUrl url("http://www.wordsearchcreator.org/update/1.1/check.php");
+	    if (manual)
+	        url.addQueryItem("type", "manual");
+	    else
+	    {
+	        QSettings settings;
+	        bool autoCheckEnabled = settings.value("updateChecker/autoUpdateCheckEnabled", true).toBool();
+	        if (!autoCheckEnabled)
+	            return;
+	    }
+	#ifdef Q_OS_LINUX
+	    url.addQueryItem("OS", "Linux");
+	#elif defined Q_OS_MAC
+	    url.addQueryItem("OS", "Mac");
+	#elif defined Q_OS_WIN32
+	    url.addQueryItem("OS", "Windows");
+	#else
+	    url.addQueryItem("OS", "Unknown");
+	#endif
+    	manager->get(QNetworkRequest(url));
+    #else
+	QUrl url("http://www.wordsearchcreator.org/update/1.1/check.php");
+        QUrlQuery q;
+	if (manual)
+	    q.addQueryItem("type", "manual");
+	else
+	{
+	    QSettings settings;
+	    bool autoCheckEnabled = settings.value("updateChecker/autoUpdateCheckEnabled", true).toBool();
+	    if (!autoCheckEnabled)
+	        return;
+	}
+	#ifdef Q_OS_LINUX
+	    q.addQueryItem("OS", "Linux");
+	#elif defined Q_OS_MAC
+	    q.addQueryItem("OS", "Mac");
+	#elif defined Q_OS_WIN32
+	    q.addQueryItem("OS", "Windows");
+	#else
+	    q.addQueryItem("OS", "Unknown");
+	#endif
+        url.setQuery(q);
+    	manager->get(QNetworkRequest(url));
+    #endif
 }
 
 void UpdateChecker::updateReplyFinished(QNetworkReply* reply)

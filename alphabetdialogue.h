@@ -26,6 +26,8 @@
 #include <QtXml>
 #include <wordsearch.h>
 #include "ui_alphabet.h"
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 class WordSearchDoc;
 
@@ -51,7 +53,7 @@ public slots:
     void abedeted(QString text);
     void save();
     void getfromweb();
-    void httpRequestFinished(int requestId, bool error);
+    void httpRequestFinished(QNetworkReply*);
 };
 
 #endif

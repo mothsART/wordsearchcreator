@@ -20,7 +20,6 @@
 #include "wordsearchdoc.h"
 
 WordSearchDoc::WordSearchDoc(QWidget *parent)
-    //: QObject(& *parent)
 {
     WSFont.setFamily("URW Gothic L");
     WSFont.setPointSize(20);

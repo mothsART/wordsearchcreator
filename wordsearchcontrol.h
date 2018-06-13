@@ -68,7 +68,7 @@ class WordSearchControl : public QWidget , private Ui::WordSearchControl
 		void updateNoLines();
 		void alphabet();
 		void upload();
-                void httpRequestFinished(int requestId, bool error);
+                void httpRequestFinished(QNetworkReply*);
                 void useMaskChanged(int used);
                 void setFooter();
 	signals:

@@ -44,7 +44,8 @@ WordSearchControl::WordSearchControl(QWidget *)
     connect(xspin, SIGNAL(valueChanged(int)), this, SIGNAL(XValChanged(int)));
     connect(yspin, SIGNAL(valueChanged(int)), this, SIGNAL(YValChanged(int)));
     connect(createbutton, SIGNAL(clicked()), this, SLOT(createclicked()));
-    connect(WordListBox, SIGNAL(textChanged()), this, SLOT(updateNoLines()));	connect(http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+    connect(WordListBox, SIGNAL(textChanged()), this, SLOT(updateNoLines()));
+    connect(http, SIGNAL(requestFinished(QNetworkReply*)), this, SLOT(httpRequestFinished(QNetworkReply*)));
 }
 
 void WordSearchControl::createclicked()
@@ -163,34 +164,23 @@ void WordSearchControl::upload()
         wsdatabuffer.open(QIODevice::WriteOnly);
         wsd->saveToIO(wsdatabuffer);
         http->get(QNetworkRequest(QUrl("wordsearchcreator.org")));
-        webbuffer = new QBuffer;
-        
-        //httpPostId = http->post(QNetworkRequest(QUrl("/uploadws_1.0.php")));
-
+        http->post(QNetworkRequest(QUrl("/uploadws_1.0.php")), wsdatabuffer.buffer());
     }
 }
 
-void WordSearchControl::httpRequestFinished(int requestId, bool error)
+void WordSearchControl::httpRequestFinished(QNetworkReply *resp)
 {
-    /*
-    if (requestId != httpPostId) return;
-
-    if (http->lastResponse().statusCode() != 200) {
-        QMessageBox::information(this, tr("HTTP"), tr("Upload failed: %1.") .arg(http->lastResponse().reasonPhrase()));
-        delete webbuffer; return;
-    }
-    if (error) {
-        QMessageBox::information(this, tr("HTTP"), tr("Upload failed: %1.") .arg(http->errorString()));
-        delete webbuffer;
-        return;
-
-    } else {
+    QVariant status_code = resp->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    if (status_code.isValid()) {
         QUrl url("http://wordsearchcreator.org/uploadws_1.0_step2.php");
-        url.setQuery(QUrlQuery().addQueryItem("id",webbuffer->buffer()));
+        QUrlQuery q;
+        q.addQueryItem("id",webbuffer->buffer());
+        url.setQuery(q);
         QDesktopServices::openUrl(url);
-        delete webbuffer;
+    } else {
+        QMessageBox::information(this, tr("HTTP"), tr("Upload failed: %1.") .arg(resp->errorString()));
     }
-    */
+    delete webbuffer;
 }
 
 void WordSearchControl::SetupTemplate()

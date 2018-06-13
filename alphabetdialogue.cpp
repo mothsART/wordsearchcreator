@@ -50,7 +50,7 @@ AlphabetDialog::AlphabetDialog(QWidget *parent)
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(okPressed()));
     connect(saveButton, SIGNAL(clicked()), this, SLOT(save()));
     connect(GetFromWeb, SIGNAL(clicked()), this, SLOT(getfromweb()));
-    connect(http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+    connect(http, SIGNAL(requestFinished(QNetworkReply*)), this, SLOT(httpRequestFinished(QNetworkReply*)));
 }
 
 void AlphabetDialog::okPressed()
@@ -169,69 +169,41 @@ void AlphabetDialog::getfromweb()
                                   QMessageBox::Yes | QMessageBox::No);
     if (reply != QMessageBox::Yes)
         return;
-    /*
-    http->setHost("wordsearchcreator.org");
-    buffer = new QBuffer;
-    httpGetId = http->post("/alphabets.xml","1.1", buffer);
-    */
+    QBuffer wsdatabuffer;
+    http->get(QNetworkRequest(QUrl("wordsearchcreator.org")));
+    http->post(QNetworkRequest(QUrl("/alphabets.xml")), wsdatabuffer.buffer());
 }
 
-void AlphabetDialog::httpRequestFinished(int requestId, bool error)
+void AlphabetDialog::httpRequestFinished(QNetworkReply *resp)
 {
-//    std::cout << "test" << std::endl;
-    if (requestId != httpGetId)
-        return;
-
-    /*
-    if (http->lastResponse().statusCode() != 200) {
-        
-        QMessageBox::information(this, tr("HTTP"),
-                                 tr("Download failed: %1.")
-                                 .arg(http->lastResponse().reasonPhrase()));
-        return;
+    QVariant status_code = resp->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    if (!status_code.isValid()) {
+        QMessageBox::information(this, tr("HTTP"), tr("Upload failed: %1.") .arg(resp->errorString()));
     }
-    if (error) {
-        QMessageBox::information(this, tr("HTTP"),
-                                 tr("Download failed: %1.")
-                                 .arg(http->errorString()));
-
-    } else {
-    */
-    if (!error) {
-
-        buffer->open(QBuffer::ReadWrite);
-
-        QDomDocument doc;
-        if (doc.setContent(buffer))
-        {
-            QDomElement root = doc.documentElement();
-            if( root.tagName() != "WSCXMLal" )
-            {
-                QMessageBox::information(this, tr("Wordsearch Creator"), tr("Incorrect file format."));
-                delete buffer;
-                return;
-            }
-            QSettings settings;
-            settings.beginGroup("alphabets");
-            QDomNodeList DEWordList = root.elementsByTagName("alphabet");
-
-            for (int i = 0; i < DEWordList.count(); i++)
-            {
-                QString alphabet = DEWordList.at(i).toElement().text();
-                QString alphabetname = DEWordList.at(i).toElement().attribute("name");
-                QString ealphabet = settings.value(alphabetname,QString()).toString();
-                if (!alphabetname.isEmpty() && !alphabet.isEmpty() && ealphabet.isNull())
-                {
-                    settings.setValue(alphabetname, alphabet);
-                    alphabetname.append(" - \"").append(alphabet).append("\"");
-                    Alphabetcbox->addItem(alphabetname,alphabet);
-                }
+    buffer->open(QBuffer::ReadWrite);
+    QDomDocument doc;
+    if (doc.setContent(buffer)) {
+        QDomElement root = doc.documentElement();
+        if( root.tagName() != "WSCXMLal" ) {
+            QMessageBox::information(this, tr("Wordsearch Creator"), tr("Incorrect file format."));
+            delete buffer;
+            return;
+        }
+        QSettings settings;
+        settings.beginGroup("alphabets");
+        QDomNodeList DEWordList = root.elementsByTagName("alphabet");
+        for (int i = 0; i < DEWordList.count(); i++) {
+            QString alphabet = DEWordList.at(i).toElement().text();
+            QString alphabetname = DEWordList.at(i).toElement().attribute("name");
+            QString ealphabet = settings.value(alphabetname,QString()).toString();
+            if (!alphabetname.isEmpty() && !alphabet.isEmpty() && ealphabet.isNull()) {
+                settings.setValue(alphabetname, alphabet);
+                alphabetname.append(" - \"").append(alphabet).append("\"");
+                Alphabetcbox->addItem(alphabetname,alphabet);
             }
         }
-        else
-            QMessageBox::information(this, tr("Wordsearch Creator"),
+    } else
+        QMessageBox::information(this, tr("Wordsearch Creator"),
                                      tr("XML Error."));
-        delete buffer;
-//        std::cout << "ok" << std::endl;
-    }
+    delete buffer;
 }
